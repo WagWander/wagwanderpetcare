@@ -92,7 +92,7 @@ export default function BookingPage() {
                   placeholder="+1 (555) 123-4567"
                 />
                 <p className="text-sm text-gray-500 mt-1">
-                  We'll use this to match your request with your client profile
+                  We&apos;ll use this to match your request with your client profile
                 </p>
               </div>
 

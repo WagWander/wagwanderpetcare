@@ -275,7 +275,7 @@ export default function IntakePage() {
                   onChange={handleChange}
                   className="input-field"
                   rows={3}
-                  placeholder="Describe your pet's typical reaction..."
+                  placeholder="Describe your pet&apos;s typical reaction..."
                 />
               </div>
 

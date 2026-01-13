@@ -57,7 +57,7 @@ export default function PayPage() {
         ) : (
           <div className="space-y-4">
             <p className="text-gray-600 mb-6">
-              Select the service you'd like to pay for. You'll be redirected to our secure payment portal.
+              Select the service you&apos;d like to pay for. You&apos;ll be redirected to our secure payment portal.
             </p>
 
             <button
@@ -107,7 +107,7 @@ export default function PayPage() {
 
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
               <p className="text-sm text-blue-800">
-                All payments are processed securely through Stripe. You'll receive a confirmation email after payment.
+                All payments are processed securely through Stripe. You&apos;ll receive a confirmation email after payment.
               </p>
             </div>
           </div>

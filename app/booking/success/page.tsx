@@ -11,7 +11,7 @@ export default function BookingSuccessPage() {
             Booking Request Received!
           </h1>
           <p className="text-gray-600 mb-6">
-            Your booking request has been submitted. We'll review it and confirm with you shortly.
+            Your booking request has been submitted. We&apos;ll review it and confirm with you shortly.
           </p>
           <Link href="/" className="btn-primary inline-block">
             Return Home

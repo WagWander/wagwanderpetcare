@@ -11,7 +11,7 @@ export default function IntakeSuccessPage() {
             Welcome to Wag & Wander!
           </h1>
           <p className="text-gray-600 mb-6">
-            Your intake form has been submitted successfully. We'll review your information and reach out to you shortly.
+            Your intake form has been submitted successfully. We&apos;ll review your information and reach out to you shortly.
           </p>
           <Link href="/" className="btn-primary inline-block">
             Return Home
