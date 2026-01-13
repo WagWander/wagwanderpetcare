@@ -122,11 +122,19 @@ export default function IntakePage() {
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="bg-white shadow-sm sticky top-0 z-10">
-        <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-4">
-          <Link href="/" className="text-primary-600 hover:text-primary-700">
-            <ArrowLeft className="w-6 h-6" />
+        <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="text-primary-600 hover:text-primary-700">
+              <ArrowLeft className="w-6 h-6" />
+            </Link>
+            <h1 className="text-2xl font-bold text-gray-800">New Client Intake</h1>
+          </div>
+          <Link
+            href="/admin/login"
+            className="text-xs sm:text-sm px-3 py-1.5 rounded-full border border-gray-300 text-gray-600 hover:text-gray-800 hover:border-gray-400"
+          >
+            Admin Login
           </Link>
-          <h1 className="text-2xl font-bold text-gray-800">New Client Intake</h1>
         </div>
       </div>
 
