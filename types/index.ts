@@ -29,6 +29,7 @@ export type RequestStatus = 'pending' | 'approved' | 'completed';
 
 export interface Request {
   id: string;
+  clientPhone: string;
   clientId: string;
   petIds: string[];
   serviceType: ServiceType;
