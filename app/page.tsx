@@ -15,7 +15,7 @@ export default function HomePage() {
         <div className="max-w-md mx-auto px-4 py-6">
           <div className="flex justify-center">
             <Image
-              src="/wag-wander-logo.png"
+              src="/banner.jpg"
               alt="Wag & Wander Pet Care"
               width={1024}
               height={1024}
