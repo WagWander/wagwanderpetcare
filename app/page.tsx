@@ -19,7 +19,7 @@ export default function HomePage() {
               alt="Wag & Wander Pet Care"
               width={1024}
               height={1024}
-              className="w-56 h-auto"
+              className="w-full h-auto"
               priority
             />
           </div>
