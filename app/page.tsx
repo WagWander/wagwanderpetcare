@@ -1,9 +1,11 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Phone, Instagram, CreditCard, Calendar, UserPlus } from 'lucide-react';
 
 export default function HomePage() {
   const businessPhone = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '+18458240221';
   const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://instagram.com/wagwanderpetcare';
+  const businessWebsite = process.env.NEXT_PUBLIC_BUSINESS_WEBSITE || 'https://wagwanderpetcare.com';
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-primary-50 to-white">
@@ -106,18 +108,26 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Contact Info */}
+        {/* Brand Card */}
         <div className="card">
-          <h3 className="font-semibold text-gray-800 mb-2">Contact</h3>
-          <p className="text-gray-600">{businessPhone}</p>
-          <a
-            href={instagramUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary-600 hover:underline"
-          >
-            @wagwanderpetcare
-          </a>
+          <div className="flex flex-col items-center text-center gap-4">
+            <Image
+              src="/wag-wander-logo.png"
+              alt="Wag & Wander Pet Care"
+              width={1024}
+              height={1024}
+              className="w-full h-auto rounded-lg"
+              priority
+            />
+            <a
+              href={businessWebsite}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary-600 font-semibold hover:underline"
+            >
+              {businessWebsite}
+            </a>
+          </div>
         </div>
       </div>
     </main>
