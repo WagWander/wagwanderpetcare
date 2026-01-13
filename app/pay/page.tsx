@@ -28,10 +28,16 @@ export default function PayPage() {
     fetchSettings();
   }, []);
 
-  const paymentLinks = settings?.paymentLinks || {
+  const defaultPaymentLinks = {
     walk30: 'https://buy.stripe.com/5kQeVfb36cOC1Qz2UV6kg05',
     walk60: 'https://buy.stripe.com/6oU6oJ4EIg0Ocvd9jj6kg04',
     homeVisit: 'https://buy.stripe.com/00wdRb3AE4i6eDldzz6kg03',
+    homeVisitMedical: 'https://buy.stripe.com/eVq6oJfjm8ym3YH3YZ6kg06',
+    customPayment: 'https://buy.stripe.com/5kQ6oJ1sw7uidzhann6kg07',
+  };
+  const paymentLinks = {
+    ...defaultPaymentLinks,
+    ...(settings?.paymentLinks ?? {}),
   };
 
   const handlePaymentClick = (url: string) => {
@@ -100,6 +106,38 @@ export default function PayPage() {
                     Home Visit - Any Animal
                   </h3>
                   <p className="text-2xl font-bold text-primary-600 mt-1">$75</p>
+                </div>
+                <ExternalLink className="w-6 h-6 text-gray-400" />
+              </div>
+            </button>
+
+            <button
+              onClick={() => handlePaymentClick(paymentLinks.homeVisitMedical)}
+              className="card w-full hover:shadow-lg transition-shadow cursor-pointer"
+            >
+              <div className="flex items-center justify-between">
+                <div className="text-left">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    Home Visit - Any Animal + Meds
+                  </h3>
+                  <p className="text-2xl font-bold text-primary-600 mt-1">$80</p>
+                </div>
+                <ExternalLink className="w-6 h-6 text-gray-400" />
+              </div>
+            </button>
+
+            <button
+              onClick={() => handlePaymentClick(paymentLinks.customPayment)}
+              className="card w-full hover:shadow-lg transition-shadow cursor-pointer"
+            >
+              <div className="flex items-center justify-between">
+                <div className="text-left">
+                  <h3 className="text-lg font-semibold text-gray-800">
+                    Custom Payment
+                  </h3>
+                  <p className="text-2xl font-bold text-primary-600 mt-1">
+                    Custom Amount
+                  </p>
                 </div>
                 <ExternalLink className="w-6 h-6 text-gray-400" />
               </div>

@@ -106,7 +106,7 @@ export default function HomePage() {
             <div className="flex justify-between items-center py-3">
               <div>
                 <p className="font-semibold text-gray-800">Home Visit</p>
-                <p className="text-sm text-gray-600">With medical care</p>
+                <p className="text-sm text-gray-600">Any animal + meds</p>
               </div>
               <p className="text-xl font-bold text-primary-600">$80</p>
             </div>

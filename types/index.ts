@@ -57,6 +57,8 @@ export interface Settings {
     walk30: string;
     walk60: string;
     homeVisit: string;
+    homeVisitMedical: string;
+    customPayment: string;
   };
 }
 

@@ -12,6 +12,7 @@ const services = [
   { value: 'walk30', label: 'Dog Walk - 30 Minutes ($25)' },
   { value: 'walk60', label: 'Dog Walk - 60 Minutes ($40)' },
   { value: 'homeVisit', label: 'Home Visit - Any Animal ($75)' },
+  { value: 'homeVisitMedical', label: 'Home Visit - Any Animal + Meds ($80)' },
 ];
 
 export default function BookingPage() {
