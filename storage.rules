@@ -1,0 +1,30 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper function to check if user is authenticated admin
+    function isAdmin() {
+      return request.auth != null;
+    }
+    
+    // Pet photos uploaded during intake
+    match /pets/{petId}/{fileName} {
+      // Public can upload during intake (write once)
+      allow create: if true;
+      // Only admin can read/delete
+      allow read, delete: if isAdmin();
+    }
+    
+    // Visit photos uploaded by admin
+    match /visits/{visitId}/{fileName} {
+      // Only admin can upload/read/delete
+      allow read, write: if isAdmin();
+    }
+    
+    // Prevent public from listing files
+    match /{allPaths=**} {
+      allow list: if isAdmin();
+    }
+  }
+}

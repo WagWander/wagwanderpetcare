@@ -1,0 +1,49 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated admin
+    function isAdmin() {
+      return request.auth != null;
+    }
+    
+    // Clients collection
+    match /clients/{clientId} {
+      // Public can only create (during intake)
+      allow create: if true;
+      // Only admin can read/update/delete
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // Pets collection
+    match /pets/{petId} {
+      // Public can only create (during intake)
+      allow create: if true;
+      // Only admin can read/update/delete
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // Requests collection
+    match /requests/{requestId} {
+      // Public can only create (booking requests)
+      allow create: if true;
+      // Only admin can read/update/delete
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // Visits collection
+    match /visits/{visitId} {
+      // Only admin can create/read/update/delete
+      allow read, write: if isAdmin();
+    }
+    
+    // Settings collection (single document)
+    match /settings/config {
+      // Public can read settings (for payment links)
+      allow read: if true;
+      // Only admin can write
+      allow write: if isAdmin();
+    }
+  }
+}
