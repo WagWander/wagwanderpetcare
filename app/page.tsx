@@ -6,18 +6,23 @@ export default function HomePage() {
   const businessPhone = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '+18458240221';
   const instagramUrl = process.env.NEXT_PUBLIC_INSTAGRAM_URL || 'https://instagram.com/wagwanderpetcare';
   const businessWebsite = process.env.NEXT_PUBLIC_BUSINESS_WEBSITE || 'https://wagwanderpetcare.com';
+  const businessWebsiteDisplay = businessWebsite.replace(/^https?:\/\//, '');
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-primary-50 to-white">
       {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-md mx-auto px-4 py-6">
-          <h1 className="text-3xl font-bold text-primary-700 text-center">
-            Wag & Wander Pet Care
-          </h1>
-          <p className="text-gray-600 text-center mt-2">
-            Professional pet care with love
-          </p>
+          <div className="flex justify-center">
+            <Image
+              src="/wag-wander-logo.png"
+              alt="Wag & Wander Pet Care"
+              width={1024}
+              height={1024}
+              className="w-56 h-auto"
+              priority
+            />
+          </div>
         </div>
       </div>
 
@@ -117,15 +122,17 @@ export default function HomePage() {
               width={1024}
               height={1024}
               className="w-full h-auto rounded-lg"
-              priority
             />
+            <p className="text-gray-700 font-semibold">
+              Professional pet care with love
+            </p>
             <a
               href={businessWebsite}
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary-600 font-semibold hover:underline"
             >
-              {businessWebsite}
+              {businessWebsiteDisplay}
             </a>
           </div>
         </div>
