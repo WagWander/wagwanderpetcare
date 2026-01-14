@@ -27,6 +27,14 @@ export default function BookingPage() {
     timeWindow: '',
     notes: '',
   });
+  const notificationEmail = process.env.NEXT_PUBLIC_NOTIFICATION_EMAIL || '';
+
+  const serviceLabels: Record<ServiceType, string> = {
+    walk30: 'Dog Walk - 30 Minutes ($25)',
+    walk60: 'Dog Walk - 60 Minutes ($40)',
+    homeVisit: 'Home Visit - Any Animal ($75)',
+    homeVisitMedical: 'Home Visit - Any Animal + Meds ($80)',
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -43,7 +51,7 @@ export default function BookingPage() {
     setError('');
 
     try {
-      await addDoc(collection(db, 'requests'), {
+      const requestRef = await addDoc(collection(db, 'requests'), {
         clientPhone: formData.clientPhone,
         serviceType: formData.serviceType,
         date: formData.date,
@@ -54,6 +62,30 @@ export default function BookingPage() {
         clientId: '', // Will be linked by admin
         petIds: [], // Will be linked by admin
       });
+
+      if (notificationEmail) {
+        const serviceLabel = serviceLabels[formData.serviceType] || formData.serviceType;
+        const notes = formData.notes?.trim() ? formData.notes.trim() : 'None';
+
+        try {
+          await addDoc(collection(db, 'mail'), {
+            to: notificationEmail,
+            message: {
+              subject: `New Booking Request - ${serviceLabel}`,
+              text:
+                'A new booking request was submitted.\n\n' +
+                `Service: ${serviceLabel}\n` +
+                `Phone: ${formData.clientPhone}\n` +
+                `Date: ${formData.date}\n` +
+                `Time: ${formData.timeWindow}\n` +
+                `Notes: ${notes}\n` +
+                `Request ID: ${requestRef.id}\n`,
+            },
+          });
+        } catch (mailError) {
+          console.error('Error sending booking notification email:', mailError);
+        }
+      }
 
       router.push('/booking/success');
     } catch (err) {

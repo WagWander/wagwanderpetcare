@@ -45,5 +45,18 @@ service cloud.firestore {
       // Only admin can write
       allow write: if isAdmin();
     }
+
+    // Mail collection for email notifications
+    match /mail/{mailId} {
+      // Public can create notification emails with a limited schema
+      allow create: if
+        request.resource.data.keys().hasOnly(['to', 'message']) &&
+        request.resource.data.to is string &&
+        request.resource.data.message.keys().hasOnly(['subject', 'text']) &&
+        request.resource.data.message.subject is string &&
+        request.resource.data.message.text is string;
+      // Only admin can read/update/delete
+      allow read, update, delete: if isAdmin();
+    }
   }
 }
