@@ -29,11 +29,11 @@ export default function PayPage() {
   }, []);
 
   const defaultPaymentLinks = {
-    walk30: 'https://buy.stripe.com/5kQeVfb36cOC1Qz2UV6kg05',
-    walk60: 'https://buy.stripe.com/6oU6oJ4EIg0Ocvd9jj6kg04',
-    homeVisit: 'https://buy.stripe.com/00wdRb3AE4i6eDldzz6kg03',
-    homeVisitMedical: 'https://buy.stripe.com/eVq6oJfjm8ym3YH3YZ6kg06',
-    customPayment: 'https://buy.stripe.com/5kQ6oJ1sw7uidzhann6kg07',
+    walk30: 'https://buy.stripe.com/14A8wR6MQdSG0Mv0MN6kg0b',
+    walk60: 'https://buy.stripe.com/3cI9AV2wA7uicvdfHH6kg0a',
+    homeVisit: 'https://buy.stripe.com/6oUfZj7QU8ym0Mvbrr6kg09',
+    homeVisitMedical: 'https://buy.stripe.com/00w9AVdbedSG0Mv1QR6kg08',
+    customPayment: 'https://buy.stripe.com/bJe28t2wAg0Odzh5336kg0d',
   };
   const paymentLinks = {
     ...defaultPaymentLinks,
