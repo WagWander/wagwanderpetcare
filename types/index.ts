@@ -62,6 +62,14 @@ export interface Settings {
   };
 }
 
+export interface Testimonial {
+  id: string;
+  name: string;
+  message: string;
+  rating: number;
+  createdAt?: Timestamp;
+}
+
 export interface IntakeFormData {
   ownerName: string;
   phone: string;

@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Phone, Instagram, CreditCard, Calendar, UserPlus } from 'lucide-react';
+import LatestTestimonialCard from '@/components/latest-testimonial-card';
+import TestimonialFormCard from '@/components/testimonial-form-card';
 
 export default function HomePage() {
   const businessPhone = process.env.NEXT_PUBLIC_BUSINESS_PHONE || '+18458240221';
@@ -71,6 +73,8 @@ export default function HomePage() {
             <Instagram className="w-6 h-6" />
             Follow on Instagram
           </a>
+
+          <TestimonialFormCard />
         </div>
 
         {/* Services & Pricing */}
@@ -112,6 +116,8 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
+        <LatestTestimonialCard />
 
         {/* Brand Card */}
         <div className="card">

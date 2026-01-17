@@ -10,7 +10,8 @@ import {
   Calendar, 
   ClipboardList, 
   LogOut,
-  Loader2 
+  Loader2,
+  MessageSquare
 } from 'lucide-react';
 
 function AdminLayoutContent({ children }: { children: React.ReactNode }) {
@@ -45,6 +46,7 @@ function AdminLayoutContent({ children }: { children: React.ReactNode }) {
     { href: '/admin/clients', label: 'Clients', icon: Users },
     { href: '/admin/requests', label: 'Requests', icon: Calendar },
     { href: '/admin/visits', label: 'Visits', icon: ClipboardList },
+    { href: '/admin/testimonials', label: 'Testimonials', icon: MessageSquare },
   ];
 
   return (
