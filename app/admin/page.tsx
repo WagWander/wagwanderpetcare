@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { format } from 'date-fns';
-import { Loader2, Calendar, CheckCircle, Clock } from 'lucide-react';
+import { Loader2, Calendar, CheckCircle, Clock, XCircle } from 'lucide-react';
 import type { Request } from '@/types';
 
 export default function AdminDashboardPage() {
@@ -38,6 +38,7 @@ export default function AdminDashboardPage() {
   const pendingRequests = requests.filter((r) => r.status === 'pending');
   const approvedRequests = requests.filter((r) => r.status === 'approved');
   const completedRequests = requests.filter((r) => r.status === 'completed');
+  const declinedRequests = requests.filter((r) => r.status === 'declined');
 
   const getServiceLabel = (serviceType: string) => {
     const labels: Record<string, string> = {
@@ -62,7 +63,7 @@ export default function AdminDashboardPage() {
       <h2 className="text-2xl font-bold text-gray-800">Dashboard</h2>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
           <div className="flex items-center gap-3 mb-2">
             <Clock className="w-6 h-6 text-yellow-600" />
@@ -85,6 +86,14 @@ export default function AdminDashboardPage() {
             <h3 className="font-semibold text-green-900">Completed</h3>
           </div>
           <p className="text-3xl font-bold text-green-900">{completedRequests.length}</p>
+        </div>
+
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+          <div className="flex items-center gap-3 mb-2">
+            <XCircle className="w-6 h-6 text-red-600" />
+            <h3 className="font-semibold text-red-900">Declined</h3>
+          </div>
+          <p className="text-3xl font-bold text-red-900">{declinedRequests.length}</p>
         </div>
       </div>
 

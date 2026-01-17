@@ -25,7 +25,7 @@ export interface Pet {
 }
 
 export type ServiceType = 'walk30' | 'walk60' | 'homeVisit' | 'homeVisitMedical';
-export type RequestStatus = 'pending' | 'approved' | 'completed';
+export type RequestStatus = 'pending' | 'approved' | 'completed' | 'declined';
 
 export interface Request {
   id: string;

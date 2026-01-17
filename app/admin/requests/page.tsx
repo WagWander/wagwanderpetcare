@@ -4,13 +4,13 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { collection, getDocs, orderBy, query, doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { Loader2, Calendar, Clock, CheckCircle } from 'lucide-react';
+import { Loader2, Calendar, Clock, CheckCircle, XCircle } from 'lucide-react';
 import type { Request } from '@/types';
 
 export default function AdminRequestsPage() {
   const [requests, setRequests] = useState<Request[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'completed'>('all');
+  const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'completed' | 'declined'>('all');
 
   useEffect(() => {
     fetchRequests();
@@ -54,6 +54,7 @@ export default function AdminRequestsPage() {
       pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
       approved: 'bg-blue-100 text-blue-800 border-blue-200',
       completed: 'bg-green-100 text-green-800 border-green-200',
+      declined: 'bg-red-100 text-red-800 border-red-200',
     };
     return colors[status] || 'bg-gray-100 text-gray-800';
   };
@@ -63,6 +64,7 @@ export default function AdminRequestsPage() {
       pending: <Clock className="w-4 h-4" />,
       approved: <Calendar className="w-4 h-4" />,
       completed: <CheckCircle className="w-4 h-4" />,
+      declined: <XCircle className="w-4 h-4" />,
     };
     return icons[status] || null;
   };
@@ -86,6 +88,7 @@ export default function AdminRequestsPage() {
           { value: 'pending', label: 'Pending' },
           { value: 'approved', label: 'Approved' },
           { value: 'completed', label: 'Completed' },
+          { value: 'declined', label: 'Declined' },
         ].map((tab) => (
           <button
             key={tab.value}

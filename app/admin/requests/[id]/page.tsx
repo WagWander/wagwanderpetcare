@@ -5,8 +5,8 @@ import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
-import { ArrowLeft, Loader2, CheckCircle, XCircle } from 'lucide-react';
-import type { Request } from '@/types';
+import { ArrowLeft, Loader2, CheckCircle, XCircle, MessageSquare } from 'lucide-react';
+import type { Request, RequestStatus } from '@/types';
 
 export default function RequestDetailPage() {
   const params = useParams();
@@ -15,7 +15,24 @@ export default function RequestDetailPage() {
   
   const [request, setRequest] = useState<Request | null>(null);
   const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState(false);
+  const [updatingAction, setUpdatingAction] = useState<'approve' | 'decline' | 'complete' | null>(null);
+
+  const statusStyles: Record<RequestStatus, string> = {
+    pending: 'bg-yellow-100 text-yellow-800',
+    approved: 'bg-blue-100 text-blue-800',
+    completed: 'bg-green-100 text-green-800',
+    declined: 'bg-red-100 text-red-800',
+  };
+
+  const getServiceLabel = (serviceType: string) => {
+    const labels: Record<string, string> = {
+      walk30: 'Dog Walk - 30 Minutes ($25)',
+      walk60: 'Dog Walk - 60 Minutes ($40)',
+      homeVisit: 'Home Visit - Any Animal ($75)',
+      homeVisitMedical: 'Home Visit with Medical ($80)',
+    };
+    return labels[serviceType] || serviceType;
+  };
 
   useEffect(() => {
     const fetchRequest = async () => {
@@ -37,7 +54,7 @@ export default function RequestDetailPage() {
   const handleApprove = async () => {
     if (!request) return;
     
-    setUpdating(true);
+    setUpdatingAction('approve');
     try {
       await updateDoc(doc(db, 'requests', requestId), {
         status: 'approved',
@@ -47,14 +64,34 @@ export default function RequestDetailPage() {
       console.error('Error approving request:', error);
       alert('Failed to approve request');
     } finally {
-      setUpdating(false);
+      setUpdatingAction(null);
+    }
+  };
+
+  const handleDecline = async () => {
+    if (!request) return;
+
+    const confirmed = window.confirm('Decline this booking request?');
+    if (!confirmed) return;
+
+    setUpdatingAction('decline');
+    try {
+      await updateDoc(doc(db, 'requests', requestId), {
+        status: 'declined',
+      });
+      setRequest({ ...request, status: 'declined' });
+    } catch (error) {
+      console.error('Error declining request:', error);
+      alert('Failed to decline request');
+    } finally {
+      setUpdatingAction(null);
     }
   };
 
   const handleComplete = async () => {
     if (!request) return;
     
-    setUpdating(true);
+    setUpdatingAction('complete');
     try {
       await updateDoc(doc(db, 'requests', requestId), {
         status: 'completed',
@@ -63,18 +100,21 @@ export default function RequestDetailPage() {
     } catch (error) {
       console.error('Error completing request:', error);
       alert('Failed to complete request');
-      setUpdating(false);
+      setUpdatingAction(null);
     }
   };
 
-  const getServiceLabel = (serviceType: string) => {
-    const labels: Record<string, string> = {
-      walk30: 'Dog Walk - 30 Minutes ($25)',
-      walk60: 'Dog Walk - 60 Minutes ($40)',
-      homeVisit: 'Home Visit - Any Animal ($75)',
-      homeVisitMedical: 'Home Visit with Medical ($80)',
-    };
-    return labels[serviceType] || serviceType;
+  const handleSendDecline = () => {
+    if (!request) return;
+
+    const serviceLabel = getServiceLabel(request.serviceType);
+    const message =
+      `Hi! Thanks for your request for ${serviceLabel} on ${request.date} (${request.timeWindow}). ` +
+      'Unfortunately we are not available at that time. ' +
+      'Reply with a few alternate dates/times and we will do our best to fit you in.';
+
+    const smsUrl = `sms:${request.clientPhone}?&body=${encodeURIComponent(message)}`;
+    window.location.href = smsUrl;
   };
 
   if (loading) {
@@ -108,13 +148,7 @@ export default function RequestDetailPage() {
       {/* Request Info */}
       <div className="card">
         <div className="flex items-center gap-2 mb-4">
-          <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
-            request.status === 'pending'
-              ? 'bg-yellow-100 text-yellow-800'
-              : request.status === 'approved'
-              ? 'bg-blue-100 text-blue-800'
-              : 'bg-green-100 text-green-800'
-          }`}>
+          <span className={`px-3 py-1 rounded-full text-sm font-semibold ${statusStyles[request.status]}`}>
             {request.status.toUpperCase()}
           </span>
         </div>
@@ -173,10 +207,10 @@ export default function RequestDetailPage() {
           <div className="space-y-3">
             <button
               onClick={handleApprove}
-              disabled={updating}
+              disabled={updatingAction !== null}
               className="btn-primary w-full flex items-center justify-center gap-2"
             >
-              {updating ? (
+              {updatingAction === 'approve' ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
                   Approving...
@@ -188,6 +222,23 @@ export default function RequestDetailPage() {
                 </>
               )}
             </button>
+            <button
+              onClick={handleDecline}
+              disabled={updatingAction !== null}
+              className="w-full flex items-center justify-center gap-2 bg-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {updatingAction === 'decline' ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Declining...
+                </>
+              ) : (
+                <>
+                  <XCircle className="w-5 h-5" />
+                  Decline Request
+                </>
+              )}
+            </button>
           </div>
         )}
 
@@ -195,10 +246,10 @@ export default function RequestDetailPage() {
           <div className="space-y-3">
             <button
               onClick={handleComplete}
-              disabled={updating}
+              disabled={updatingAction !== null}
               className="btn-primary w-full flex items-center justify-center gap-2"
             >
-              {updating ? (
+              {updatingAction === 'complete' ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
                   Processing...
@@ -217,6 +268,20 @@ export default function RequestDetailPage() {
           <div className="bg-green-50 border border-green-200 rounded-lg p-4 text-center">
             <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-2" />
             <p className="text-green-800 font-medium">Request Completed</p>
+          </div>
+        )}
+
+        {request.status === 'declined' && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+            <XCircle className="w-8 h-8 text-red-600 mx-auto mb-2" />
+            <p className="text-red-800 font-medium mb-4">Request Declined</p>
+            <button
+              onClick={handleSendDecline}
+              className="btn-secondary w-full flex items-center justify-center gap-2"
+            >
+              <MessageSquare className="w-5 h-5" />
+              Send Decline SMS
+            </button>
           </div>
         )}
       </div>
