@@ -61,7 +61,9 @@ export default function LatestTestimonialCard() {
         </div>
       ) : testimonial ? (
         <div className="space-y-3">
-          <p className="text-gray-700 italic">"{testimonial.message}"</p>
+          <p className="text-gray-700 italic">
+            &ldquo;{testimonial.message}&rdquo;
+          </p>
           <div className="flex items-center justify-between">
             <div>
               <p className="font-semibold text-gray-800">{testimonial.name}</p>
